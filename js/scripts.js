@@ -85,6 +85,19 @@ document.addEventListener('DOMContentLoaded', () => {
         renderizarComentarios();
     };
 
+    const setActiveLink = (url) => {
+        const currentPath = new URL(url).pathname;
+        let activeLink;
+
+        activeLink = Array.from(navLinks).find(link => new URL(link.href).pathname === currentPath);
+        
+        if (!activeLink && (currentPath.endsWith('/') || !currentPath.split('/').pop().includes('.'))) {
+            activeLink = Array.from(navLinks).find(link => link.href.endsWith('index.html'));
+        }
+        
+        updateSlider(activeLink);
+    };
+
     const loadPage = async (url) => {
         try {
             const response = await fetch(url);
@@ -99,16 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
             mainContent.innerHTML = doc.querySelector('main').innerHTML;
             document.title = doc.querySelector('title').innerText;
             
-            let targetPath = new URL(url).pathname;
-            if (targetPath === '/') {
-                targetPath = '/index.html';
-            }
-            const activeLink = Array.from(navLinks).find(link => link.pathname === targetPath);
-            updateSlider(activeLink);
+            setActiveLink(url);
             
-            if (url.includes('informacoes.html')) {
+            if (new URL(url).pathname.includes('informacoes.html')) {
                 initCommentSection();
             }
+
         } catch (error) {
             console.error('Falha ao carregar a página:', error);
             mainContent.innerHTML = '<h1>Erro de conexão.</h1>';
@@ -129,19 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
         loadPage(location.href);
     });
 
-    const setInitialState = () => {
-        let currentPath = window.location.pathname;
-        if (currentPath === '/') {
-            currentPath = '/index.html';
-        }
-        
-        const initialLink = Array.from(navLinks).find(link => link.pathname === currentPath);
-        updateSlider(initialLink);
+    setActiveLink(window.location.href);
 
-        if (window.location.pathname.includes('informacoes.html')) {
-            initCommentSection();
-        }
-    };
-
-    setInitialState();
+    if (window.location.pathname.includes('informacoes.html')) {
+        initCommentSection();
+    }
 });

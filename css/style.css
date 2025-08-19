@@ -270,14 +270,52 @@ header nav .slider {
 }
 
 .projeto p { 
-    flex-grow: 1; 
-}
+    color: #ccc;
+    text-align: justify; 
+}  
 
 .projeto a { 
-    margin-top: 1rem; 
+    margin-top: auto;
+    padding-top: 1.5rem; 
     text-decoration: none; 
     font-weight: bold; 
     color: #c386f5; 
+}
+
+.projeto a.link-gitlab {
+    background-image: linear-gradient(to right, #FC6D26, #E24329, #FCA326);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.1px;
+    font-weight: bold;
+}
+
+.projeto a.link-gitlab .gitlab-logo-img {
+    height: 2.5em; 
+    width: auto; 
+    vertical-align: middle;
+}
+
+.projeto a.link-github {
+    background-image: linear-gradient(to right, #3b82f6, #8b5cf6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.projeto a.link-github .github-logo-img {
+    height: 1.4em;
+    width: auto;
+    vertical-align: middle;
 }
 
 .img-projeto { 
