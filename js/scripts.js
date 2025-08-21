@@ -16,10 +16,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const initCommentSection = () => {
         const formComentario = document.getElementById('form-comentario');
         if (!formComentario) return;
-
+        
         const inputComentario = document.getElementById('input-comentario');
         const listaComentarios = document.getElementById('lista-comentarios');
         const comentarios = JSON.parse(localStorage.getItem('comentarios')) || [];
+        let currentUserName = sessionStorage.getItem('userName');
+
+        const getUserName = () => {
+            let userName = sessionStorage.getItem('userName');
+            if (!userName) {
+                userName = prompt("Por favor, digite seu nome para comentar:", "Visitante");
+                if (!userName || userName.trim() === "") {
+                    userName = "Anônimo";
+                }
+                sessionStorage.setItem('userName', userName);
+            }
+            return userName;
+        };
+        
+        inputComentario.addEventListener('focus', () => {
+            if (!currentUserName) {
+                currentUserName = getUserName();
+            }
+        }, { once: true });
 
         const salvarComentarios = () => {
             localStorage.setItem('comentarios', JSON.stringify(comentarios));
@@ -30,8 +49,15 @@ document.addEventListener('DOMContentLoaded', () => {
             comentarios.forEach((comentario, index) => {
                 const item = document.createElement('div');
                 item.className = 'comentario-item';
+                const autor = document.createElement('strong');
+                autor.className = 'comentario-autor';
+                autor.textContent = comentario.autor;
                 const texto = document.createElement('p');
                 texto.textContent = comentario.texto;
+                const conteudoComentario = document.createElement('div');
+                conteudoComentario.className = 'comentario-conteudo';
+                conteudoComentario.appendChild(autor);
+                conteudoComentario.appendChild(texto);
                 const controles = document.createElement('div');
                 controles.className = 'comentario-controls';
                 const likeContainer = document.createElement('div');
@@ -50,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 likeContainer.appendChild(likeCount);
                 controles.appendChild(likeContainer);
                 controles.appendChild(btnRemover);
-                item.appendChild(texto);
+                item.appendChild(conteudoComentario);
                 item.appendChild(controles);
                 listaComentarios.appendChild(item);
             });
@@ -60,7 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const novoTexto = inputComentario.value.trim();
             if (novoTexto === '') return;
-            comentarios.push({ texto: novoTexto, likes: 0 });
+            
+            if (!currentUserName) {
+                currentUserName = getUserName();
+            }
+
+            comentarios.push({ autor: currentUserName, texto: novoTexto, likes: 0 });
             inputComentario.value = '';
             salvarComentarios();
             renderizarComentarios();
@@ -70,11 +101,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetButton = event.target.closest('button');
             if (!targetButton) return;
             const index = targetButton.dataset.index;
+
             if (targetButton.classList.contains('btn-remover')) {
                 comentarios.splice(index, 1);
                 salvarComentarios();
                 renderizarComentarios();
             }
+
             if (targetButton.classList.contains('btn-like')) {
                 comentarios[index].likes++;
                 salvarComentarios();
@@ -88,13 +121,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const setActiveLink = (url) => {
         const currentPath = new URL(url).pathname;
         let activeLink;
-
         activeLink = Array.from(navLinks).find(link => new URL(link.href).pathname === currentPath);
-        
         if (!activeLink && (currentPath.endsWith('/') || !currentPath.split('/').pop().includes('.'))) {
             activeLink = Array.from(navLinks).find(link => link.href.endsWith('index.html'));
         }
-        
         updateSlider(activeLink);
     };
 
@@ -117,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (new URL(url).pathname.includes('informacoes.html')) {
                 initCommentSection();
             }
-
         } catch (error) {
             console.error('Falha ao carregar a página:', error);
             mainContent.innerHTML = '<h1>Erro de conexão.</h1>';

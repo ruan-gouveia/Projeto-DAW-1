@@ -334,10 +334,31 @@ header nav .slider {
     justify-content: flex-start;
 }
 
-.img-projeto { 
-    width: 100%; 
-    margin-top: 1rem; 
-    border-radius: 4px; 
+.em-desenvolvimento {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    opacity: 0.6;
+}
+
+.icon-desenvolvimento {
+    font-size: 3.5rem;
+    color: #a0f;
+    margin-bottom: 1rem;
+    animation: pulsate 2s infinite ease-in-out;
+}
+
+.em-desenvolvimento h3 {
+    margin-bottom: 0.5rem;
+}
+
+.em-desenvolvimento p {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #ccc;
 }
 
 #resumo, #formacao-experiencia, #habilidades, #comentarios {
@@ -443,9 +464,22 @@ header nav .slider {
     background: rgba(51, 51, 51, 0.8); 
 }
 
-.comentario-item p { 
-    flex-grow: 1; 
-    margin-right: 20px; 
+.comentario-conteudo {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-right: 20px;
+}
+
+.comentario-autor {
+    color: #a0f;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}
+
+.comentario-item p {
+    flex-grow: 0; 
+    margin-right: 0;
 }
 
 .comentario-controls { 
@@ -513,4 +547,19 @@ header nav .slider {
 
 @keyframes move-blob-3 { 
     to { transform: translate(20vw, -20vh) rotate(360deg); } 
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
 }
