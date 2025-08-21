@@ -230,6 +230,7 @@ header nav .slider {
     border: 5px solid #a0f;
     box-shadow: 0 0 5px #a0f, 0 0 15px #a0f, 0 0 30px #c386f5;
     animation: neon-pulse-stronger 2s infinite alternate;
+    object-position: center 30%; 
 }
 
 #projetos { 
@@ -272,11 +273,18 @@ header nav .slider {
 .projeto p { 
     color: #ccc;
     text-align: justify; 
-}  
+}
+
+.projeto-conteudo {
+    display: flex;         
+    flex-direction: column;
+    flex-grow: 1;          
+}
 
 .projeto a { 
-    margin-top: auto;
-    padding-top: 1.5rem; 
+    margin-top: auto;   
+    padding-top: 1.5rem;   
+    width: fit-content;   
     text-decoration: none; 
     font-weight: bold; 
     color: #c386f5; 
@@ -292,6 +300,7 @@ header nav .slider {
     align-items: center;
     gap: 0.1px;
     font-weight: bold;
+    margin-top: 10px;
 }
 
 .projeto a.link-gitlab .gitlab-logo-img {
@@ -318,19 +327,31 @@ header nav .slider {
     vertical-align: middle;
 }
 
+.link-container {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: flex-start;
+}
+
 .img-projeto { 
     width: 100%; 
     margin-top: 1rem; 
     border-radius: 4px; 
 }
 
-#formacao-experiencia, #habilidades, #comentarios {
+#resumo, #formacao-experiencia, #habilidades, #comentarios {
     background: rgba(26, 22, 32, 0.4);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 2rem;
+}
+
+.resumo-texto {
+    text-align: justify;
+    color: #e0e0e0;
 }
 
 #formacao-experiencia h2, #habilidades h2, #comentarios h2 { 
